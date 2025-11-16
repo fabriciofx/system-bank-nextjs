@@ -29,7 +29,7 @@ type ListaClientesProps = {
   ) => UseQueryResult<PageResult<Cliente>, Error>;
   remove: (options: {
     onSuccess: () => void;
-    onError: () => void;
+    onError: (error: Error) => void;
   }) => UseMutationResult<void, Error, Id, unknown>;
   rowsPage: number;
 };
@@ -52,8 +52,11 @@ export default function ListaClientes({
         'Sucesso!',
         'Cliente apagado com sucesso!'
       ).show(),
-    onError: async () =>
-      await new ErrorMessage('Oops!', 'Erro ao apagar cliente!').show()
+    onError: async (error: Error) =>
+      await new ErrorMessage(
+        'Oops!',
+        `Erro ao apagar cliente: ${error.message}`
+      ).show()
   });
 
   function handleEdit(cliente: Cliente): void {

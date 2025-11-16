@@ -15,7 +15,7 @@ export function usePagesClientes(num: number, size: number) {
 
 export function useDeleteCliente(options: {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error: Error) => void;
 }) {
   const queryClient = useQueryClient();
   return useMutation({
@@ -24,8 +24,8 @@ export function useDeleteCliente(options: {
       await queryClient.invalidateQueries({ queryKey: ['pagesClientes'] });
       options.onSuccess();
     },
-    onError: () => {
-      options.onError();
+    onError: (error: Error) => {
+      options.onError(error);
     }
   });
 }
