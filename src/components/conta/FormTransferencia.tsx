@@ -3,13 +3,11 @@
 import { Button, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useTransferencia } from '@/src/hooks/useTransferencia';
 import type { Transferencia } from '@/src/models/Transferencia';
 import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
 import { pagesClientes } from '../../services/ClienteService';
-import {
-  listContas,
-  transferenciaEntreContas
-} from '../../services/ContaService';
+import { listContas } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
 import styles from './FormConta.module.css';
 
@@ -19,6 +17,18 @@ export default function FormTransferencia() {
   const [origem, setOrigem] = useState<string>('0');
   const [destino, setDestino] = useState<string>('0');
   const [valor, setValor] = useState<string>('0');
+  const transfere = useTransferencia({
+    onSuccess: async () =>
+      await new SuccessMessage(
+        'Sucesso!',
+        'Transferência realizada com sucesso!'
+      ).show(),
+    onError: async (error: Error) =>
+      await new ErrorMessage(
+        'Oops...',
+        `Erro ao transferir entre contas: ${error.message}`
+      ).show()
+  });
 
   function handleValor(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,24 +40,13 @@ export default function FormTransferencia() {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault();
-    try {
-      const transferencia: Transferencia = {
-        conta_origem: Number(origem),
-        conta_destino: Number(destino),
-        valor: Number(valor)
-      };
-      await transferenciaEntreContas(transferencia);
-      await new SuccessMessage(
-        'Sucesso!',
-        'Transferência realizada com sucesso!'
-      ).show();
-      router.push('/contas');
-    } catch (error) {
-      await new ErrorMessage(
-        'Oops...',
-        `Erro ao transferir entre contas: ${error}`
-      ).show();
-    }
+    const transferencia: Transferencia = {
+      conta_origem: Number(origem),
+      conta_destino: Number(destino),
+      valor: Number(valor)
+    };
+    transfere.mutate(transferencia);
+    router.push('/contas');
   }
 
   async function clientes(page: number): Promise<Option[]> {
