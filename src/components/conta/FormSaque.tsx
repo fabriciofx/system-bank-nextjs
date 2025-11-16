@@ -1,9 +1,9 @@
 'use client';
 
 import { Button, TextField } from '@mui/material';
+import type { UseMutationResult } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useSaque } from '@/src/hooks/useSaque';
 import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
 import type { Saque } from '../../models/Saque';
 import { pagesClientes } from '../../services/ClienteService';
@@ -11,12 +11,19 @@ import { listContas } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
 import styles from './FormConta.module.css';
 
-export default function FormSaque() {
+type FormSaqueProps = {
+  saca: (options: {
+    onSuccess: () => void;
+    onError: (error: Error) => void;
+  }) => UseMutationResult<void, Error, Saque, unknown>;
+};
+
+export default function FormSaque({ saca }: FormSaqueProps) {
   const router = useRouter();
   const [cliente, setCliente] = useState<string>('0');
   const [conta, setConta] = useState<string>('0');
   const [valor, setValor] = useState<string>('0');
-  const saca = useSaque({
+  const sacar = saca({
     onSuccess: async () =>
       await new SuccessMessage(
         'Sucesso!',
@@ -43,7 +50,7 @@ export default function FormSaque() {
       conta: Number(conta),
       valor: Number(valor)
     };
-    saca.mutate(saque);
+    sacar.mutate(saque);
     router.push('/contas');
   }
 
