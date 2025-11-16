@@ -27,7 +27,7 @@ type ListaContasProps = {
   ) => UseQueryResult<PageResult<ContaCliente>, Error>;
   remove: (options: {
     onSuccess: () => void;
-    onError: () => void;
+    onError: (error: Error) => void;
   }) => UseMutationResult<void, Error, Id, unknown>;
   rowsPage: number;
 };
@@ -47,8 +47,11 @@ export default function ListaContas({
   const { mutate } = remove({
     onSuccess: async () =>
       await new SuccessMessage('Sucesso!', 'Conta apagada com sucesso!').show(),
-    onError: async () =>
-      await new ErrorMessage('Oops!', 'Erro ao deletar a conta!').show()
+    onError: async (error: Error) =>
+      await new ErrorMessage(
+        'Oops!',
+        `Erro ao deletar a conta: ${error.message}`
+      ).show()
   });
 
   function handleEdit(contaCliente: ContaCliente): void {
