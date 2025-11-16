@@ -46,7 +46,7 @@ export default function ListaClientes({
     page + 1,
     rowsPerPage
   );
-  const { mutate } = remove({
+  const remover = remove({
     onSuccess: async () =>
       await new SuccessMessage(
         'Sucesso!',
@@ -64,7 +64,7 @@ export default function ListaClientes({
   }
 
   async function handleDelete(id: number) {
-    mutate({ id: id });
+    remover.mutate({ id: id });
   }
 
   function handleChangePage(
