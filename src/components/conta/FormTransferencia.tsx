@@ -1,9 +1,9 @@
 'use client';
 
 import { Button, TextField } from '@mui/material';
+import type { UseMutationResult } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useTransferencia } from '@/src/hooks/useTransferencia';
 import type { Transferencia } from '@/src/models/Transferencia';
 import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
 import { pagesClientes } from '../../services/ClienteService';
@@ -11,13 +11,22 @@ import { listContas } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
 import styles from './FormConta.module.css';
 
-export default function FormTransferencia() {
+type FormTransferenciaProps = {
+  transfere: (options: {
+    onSuccess: () => void;
+    onError: (error: Error) => void;
+  }) => UseMutationResult<void, Error, Transferencia, unknown>;
+};
+
+export default function FormTransferencia({
+  transfere
+}: FormTransferenciaProps) {
   const router = useRouter();
   const [cliente, setCliente] = useState<string>('');
   const [origem, setOrigem] = useState<string>('0');
   const [destino, setDestino] = useState<string>('0');
   const [valor, setValor] = useState<string>('0');
-  const transfere = useTransferencia({
+  const transf = transfere({
     onSuccess: async () =>
       await new SuccessMessage(
         'Sucesso!',
@@ -45,7 +54,7 @@ export default function FormTransferencia() {
       conta_destino: Number(destino),
       valor: Number(valor)
     };
-    transfere.mutate(transferencia);
+    transf.mutate(transferencia);
     router.push('/contas');
   }
 
