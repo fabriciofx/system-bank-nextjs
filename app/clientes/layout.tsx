@@ -9,12 +9,6 @@ export default function ClientesLayout({
 }>) {
   const queryClient = new QueryClient();
   return (
-    <html lang="pt-BR">
-      <body>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
