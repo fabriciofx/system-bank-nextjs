@@ -33,7 +33,7 @@ export default function FormLogin({ login, router }: FormLoginProps) {
   }
 
   return (
-    <div>
+    <div className={styles.form_login}>
       <div className={styles.title_container}>
         <h1 className={styles.title}>Login</h1>
         <p className={styles.subtitle}>
@@ -42,7 +42,7 @@ export default function FormLogin({ login, router }: FormLoginProps) {
         </p>
       </div>
       <div>
-        <form className={styles.form_login} onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className={styles.form_input}>
             <label htmlFor="username" className={styles.label}>
               E-mail ou Nome de Usuário
