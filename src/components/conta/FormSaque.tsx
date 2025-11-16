@@ -35,14 +35,6 @@ export default function FormSaque() {
     setValor(event.target.value);
   }
 
-  function handleCliente(value: React.SetStateAction<string>): void {
-    setCliente(value.toString());
-  }
-
-  function handleConta(value: React.SetStateAction<string>): void {
-    setConta(value.toString());
-  }
-
   async function handleSubmit(
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
@@ -87,14 +79,14 @@ export default function FormSaque() {
           required
           value={cliente}
           options={clientes}
-          onChange={(val) => handleCliente(val)}
+          onChange={(val) => setCliente(val)}
         />
         <InfiniteSelect
           label="Conta"
           required
           value={conta}
           options={contas}
-          onChange={(val) => handleConta(val)}
+          onChange={(val) => setConta(val)}
           key={cliente}
         />
         <TextField
