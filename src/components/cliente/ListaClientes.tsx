@@ -21,7 +21,6 @@ import type { PageResult } from '../../core/PageResult';
 import type { Cliente } from '../../models/Cliente';
 import type { Id } from '../../models/Id';
 import { ErrorMessage, SuccessMessage } from '../message/Message';
-import styles from './ListaClientes.module.css';
 
 type ListaClientesProps = {
   pages: (
