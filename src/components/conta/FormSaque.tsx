@@ -4,7 +4,7 @@ import { Button, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
-import { SAQUE_INVALIDO, type Saque } from '../../models/Saque';
+import type { Saque } from '../../models/Saque';
 import { pagesClientes } from '../../services/ClienteService';
 import { listContas, saqueConta } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
@@ -12,18 +12,22 @@ import styles from './FormConta.module.css';
 
 export default function FormSaque() {
   const router = useRouter();
-  const [cliente, setCliente] = useState<string>('');
-  const [saque, setSaque] = useState<Saque>(SAQUE_INVALIDO);
+  const [cliente, setCliente] = useState<string>('0');
+  const [conta, setConta] = useState<string>('0');
+  const [valor, setValor] = useState<string>('0');
 
-  function handleChange(
+  function handleValor(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void {
-    const { name, value } = event.target;
-    setSaque({ ...saque, [name]: value });
+    setValor(event.target.value);
   }
 
   function handleCliente(value: React.SetStateAction<string>): void {
     setCliente(value.toString());
+  }
+
+  function handleConta(value: React.SetStateAction<string>): void {
+    setConta(value.toString());
   }
 
   async function handleSubmit(
@@ -31,6 +35,10 @@ export default function FormSaque() {
   ): Promise<void> {
     event.preventDefault();
     try {
+      const saque: Saque = {
+        conta: Number(conta),
+        valor: Number(valor)
+      };
       await saqueConta(saque);
       await new SuccessMessage(
         'Sucesso!',
@@ -75,14 +83,16 @@ export default function FormSaque() {
         <InfiniteSelect
           label="Cliente"
           required
+          value={cliente}
           options={clientes}
           onChange={(val) => handleCliente(val)}
         />
         <InfiniteSelect
           label="Conta"
           required
+          value={conta}
           options={contas}
-          onChange={(val) => setSaque({ ...saque, conta: Number(val) })}
+          onChange={(val) => handleConta(val)}
           key={cliente}
         />
         <TextField
@@ -90,7 +100,7 @@ export default function FormSaque() {
           name="valor"
           variant="filled"
           required
-          onChange={handleChange}
+          onChange={handleValor}
         />
         <Button type="submit" variant="contained">
           Sacar

@@ -19,7 +19,7 @@ type InfiniteSelectProps = {
   onChange: (value: string) => void;
   options: (page: number) => Promise<Option[]>;
   required?: boolean;
-  value?: string;
+  value: string;
 };
 
 export default function InfiniteSelect({

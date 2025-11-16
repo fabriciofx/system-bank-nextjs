@@ -4,7 +4,7 @@ import { Button, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
-import { DEPOSITO_INVALIDO, type Deposito } from '../../models/Deposito';
+import type { Deposito } from '../../models/Deposito';
 import { pagesClientes } from '../../services/ClienteService';
 import { depositoConta, listContas } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
@@ -13,17 +13,13 @@ import styles from './FormConta.module.css';
 export default function FormDeposito() {
   const router = useRouter();
   const [cliente, setCliente] = useState<string>('');
-  const [deposito, setDeposito] = useState<Deposito>(DEPOSITO_INVALIDO);
+  const [conta, setConta] = useState<string>('0');
+  const [valor, setValor] = useState<string>('0');
 
-  function handleChange(
+  function handleValor(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void {
-    const { name, value } = event.target;
-    setDeposito({ ...deposito, [name]: value });
-  }
-
-  function handleCliente(value: React.SetStateAction<string>): void {
-    setCliente(value.toString());
+    setValor(event.target.value);
   }
 
   async function handleSubmit(
@@ -31,6 +27,10 @@ export default function FormDeposito() {
   ): Promise<void> {
     event.preventDefault();
     try {
+      const deposito: Deposito = {
+        conta: Number(conta),
+        valor: Number(valor)
+      };
       await depositoConta(deposito);
       await new SuccessMessage(
         'Sucesso!',
@@ -75,14 +75,16 @@ export default function FormDeposito() {
         <InfiniteSelect
           label="Cliente"
           required
+          value={cliente}
           options={clientes}
-          onChange={(val) => handleCliente(val)}
+          onChange={(val) => setCliente(val)}
         />
         <InfiniteSelect
           label="Conta"
           required
+          value={conta}
           options={contas}
-          onChange={(val) => setDeposito({ ...deposito, conta: Number(val) })}
+          onChange={(val) => setConta(val)}
           key={cliente}
         />
         <TextField
@@ -90,7 +92,7 @@ export default function FormDeposito() {
           name="valor"
           variant="filled"
           required
-          onChange={handleChange}
+          onChange={handleValor}
         />
         <Button type="submit" variant="contained">
           Depositar

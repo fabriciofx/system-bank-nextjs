@@ -3,11 +3,8 @@
 import { Button, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import type { Transferencia } from '@/src/models/Transferencia';
 import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
-import {
-  TRANSFERENCIA_INVALIDA,
-  type Transferencia
-} from '../../models/Transferencia';
 import { pagesClientes } from '../../services/ClienteService';
 import {
   listContas,
@@ -19,19 +16,14 @@ import styles from './FormConta.module.css';
 export default function FormTransferencia() {
   const router = useRouter();
   const [cliente, setCliente] = useState<string>('');
-  const [transferencia, setTransferencia] = useState<Transferencia>(
-    TRANSFERENCIA_INVALIDA
-  );
+  const [origem, setOrigem] = useState<string>('0');
+  const [destino, setDestino] = useState<string>('0');
+  const [valor, setValor] = useState<string>('0');
 
-  function handleChange(
+  function handleValor(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void {
-    const { name, value } = event.target;
-    setTransferencia({ ...transferencia, [name]: value });
-  }
-
-  function handleCliente(value: React.SetStateAction<string>): void {
-    setCliente(value.toString());
+    setValor(event.target.value);
   }
 
   async function handleSubmit(
@@ -39,6 +31,11 @@ export default function FormTransferencia() {
   ): Promise<void> {
     event.preventDefault();
     try {
+      const transferencia: Transferencia = {
+        conta_origem: Number(origem),
+        conta_destino: Number(destino),
+        valor: Number(valor)
+      };
       await transferenciaEntreContas(transferencia);
       await new SuccessMessage(
         'Sucesso!',
@@ -83,25 +80,24 @@ export default function FormTransferencia() {
         <InfiniteSelect
           label="Cliente"
           required
+          value={cliente}
           options={clientes}
-          onChange={(val) => handleCliente(val)}
+          onChange={(val) => setCliente(val)}
         />
         <InfiniteSelect
           label="Origem"
           required
+          value={origem}
           options={contas}
-          onChange={(val) =>
-            setTransferencia({ ...transferencia, conta_origem: Number(val) })
-          }
+          onChange={(val) => setOrigem(val)}
           key={`origem-${cliente}`}
         />
         <InfiniteSelect
           label="Destino"
           required
           options={contas}
-          onChange={(val) =>
-            setTransferencia({ ...transferencia, conta_destino: Number(val) })
-          }
+          value={destino}
+          onChange={(val) => setDestino(val)}
           key={`destino-${cliente}`}
         />
         <TextField
@@ -109,7 +105,7 @@ export default function FormTransferencia() {
           name="valor"
           variant="filled"
           required
-          onChange={handleChange}
+          onChange={handleValor}
         />
         <Button type="submit" variant="contained">
           Transferir
