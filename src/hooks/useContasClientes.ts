@@ -6,7 +6,7 @@ import { deleteConta } from '../services/ContaService';
 export function usePagesContasClientes(num: number, size: number) {
   return useQuery({
     queryKey: ['pagesContasClientes', num, size],
-    queryFn: () => pagesContasClientes(num, size),
+    queryFn: async () => await pagesContasClientes(num, size),
     enabled: !!num && !!size,
     staleTime: Infinity
   });
@@ -18,7 +18,7 @@ export function useDeleteConta(options: {
 }) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: Id) => deleteConta(id.id),
+    mutationFn: async (id: Id) => await deleteConta(id.id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ['pagesContasClientes']
