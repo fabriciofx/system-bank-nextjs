@@ -1,0 +1,14 @@
+.logo_container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.drawer_box {
+    width: 250;
+}
+
+.logo {
+    height: 30;
+    margin-left: 6;
+}
