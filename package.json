@@ -28,7 +28,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "npm-check-updates": "^19.1.2",
+    "react-router-dom": "^7.9.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.0.13",
+    "vitest-browser-react": "^2.0.2"
   }
 }
