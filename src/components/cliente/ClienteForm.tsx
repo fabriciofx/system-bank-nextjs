@@ -6,7 +6,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CLIENTE_INVALIDO, type Cliente } from '../../models/Cliente';
 import { ErrorMessage, SuccessMessage } from '../message/Message';
-import styles from './ClienteForm.module.css';
 
 type ClienteFormProps = {
   create: (options: {
@@ -87,7 +86,7 @@ export default function ClienteForm({
 
   return (
     <div>
-      <form className={styles.form_cliente} onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-4 w-[640px]" onSubmit={handleSubmit}>
         <TextField
           label="Nome"
           name="nome"
