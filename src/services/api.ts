@@ -1,7 +1,6 @@
-'use client';
-
 import axios, { type AxiosRequestConfig } from 'axios';
-import { STORAGE } from './AuthService';
+import { setAuthTokens } from '../actions/authAction';
+import { getAuthTokens } from '../session/session';
 
 const api = axios.create({
   baseURL: 'https://aula-angular.bcorp.tec.br/api',
@@ -10,11 +9,10 @@ const api = axios.create({
   }
 });
 
-api.interceptors.request.use((config) => {
-  const access = STORAGE.value('access_token')[0] ?? '';
-  console.log('request access: ', access);
-  if (access) {
-    config.headers.Authorization = `Bearer ${access}`;
+api.interceptors.request.use(async (config) => {
+  const tokens = await getAuthTokens();
+  if (tokens) {
+    config.headers.Authorization = `Bearer ${tokens.access}`;
   }
   return config;
 });
@@ -22,15 +20,18 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const refresh = STORAGE.value('refresh_token')[0] ?? '';
+    const tokens = await getAuthTokens();
     const config = error.config as AxiosRequestConfig & { _retry?: boolean };
     if (error.response?.status === 401 && !config._retry) {
       config._retry = true;
       try {
         const refreshResponse = await api.post('/token/refresh/', {
-          refresh: refresh
+          refresh: tokens.refresh
         });
-        STORAGE.store('access_token', refreshResponse.data.access);
+        setAuthTokens({
+          access: refreshResponse.data.access,
+          refresh: tokens.refresh
+        });
         if (config.headers) {
           config.headers.Authorization = `Bearer ${refreshResponse.data.access}`;
         }

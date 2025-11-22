@@ -1,5 +1,3 @@
-'use client';
-
 import type { PageResult } from '../core/PageResult';
 import type { Cliente } from '../models/Cliente';
 import api from './api';
