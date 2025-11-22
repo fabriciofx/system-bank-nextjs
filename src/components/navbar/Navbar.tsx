@@ -16,7 +16,6 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import styles from './Navbar.module.css';
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -39,13 +38,13 @@ export default function Navbar() {
           <IconButton color="inherit" edge="start" onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
-          <Box className={styles.logo_container}>
+          <Box className="flex items-center grow">
             <Typography variant="h5" noWrap>
               SystemBank
             </Typography>
             <Image
               src="/logo-icon.png"
-              className={styles.logo}
+              className="ml-1"
               width="32"
               height="32"
               alt="SystemBank logo"
@@ -55,7 +54,7 @@ export default function Navbar() {
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
-          className={styles.drawer_box}
+          className="w-[200px]"
           role="presentation"
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
