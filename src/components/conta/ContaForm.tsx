@@ -4,12 +4,12 @@ import { Button, MenuItem, Select, TextField } from '@mui/material';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
 import type { PageResult } from '../../core/PageResult';
 import { CLIENTE_INVALIDO, type Cliente } from '../../models/Cliente';
 import { CONTA_INVALIDA, type Conta } from '../../models/Conta';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
-import styles from './FormConta.module.css';
+import { ErrorMessage, SuccessMessage } from '../message/Message';
+import styles from './ContaForm.module.css';
 
 type FormContaProps = {
   create: (options: {

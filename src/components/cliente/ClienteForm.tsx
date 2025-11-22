@@ -4,11 +4,11 @@ import { Button, FormControlLabel, Switch, TextField } from '@mui/material';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
 import { CLIENTE_INVALIDO, type Cliente } from '../../models/Cliente';
-import styles from './FormCliente.module.css';
+import { ErrorMessage, SuccessMessage } from '../message/Message';
+import styles from './ClienteForm.module.css';
 
-type FormClienteProps = {
+type ClienteFormProps = {
   create: (options: {
     onSuccess: () => void;
     onError: (error: Error) => void;
@@ -21,12 +21,12 @@ type FormClienteProps = {
   buttonText: string;
 };
 
-export default function FormCliente({
+export default function ClienteForm({
   create,
   update,
   findById,
   buttonText
-}: FormClienteProps) {
+}: ClienteFormProps) {
   const router = useRouter();
   const { id } = useParams();
   const [cliente, setCliente] = useState<Cliente>(CLIENTE_INVALIDO);

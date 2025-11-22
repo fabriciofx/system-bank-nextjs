@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import FormLogin from '@/src/components/login/FormLogin';
+import LoginForm from '@/src/components/login/LoginForm';
 import { login } from '@/src/services/AuthService';
 
 export default function LoginPage() {
@@ -20,7 +20,7 @@ export default function LoginPage() {
           />
         </div>
         <div className="login-form">
-          <FormLogin login={login} router={router}></FormLogin>
+          <LoginForm login={login} router={router}></LoginForm>
         </div>
       </div>
     </div>

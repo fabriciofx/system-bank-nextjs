@@ -4,38 +4,35 @@ import { Button, TextField } from '@mui/material';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import type { Transferencia } from '@/src/models/Transferencia';
-import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
+import type { Saque } from '../../models/Saque';
 import { pagesClientes } from '../../services/ClienteService';
 import { listContas } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
-import styles from './FormConta.module.css';
+import { ErrorMessage, SuccessMessage } from '../message/Message';
+import styles from './ContaForm.module.css';
 
-type FormTransferenciaProps = {
-  transfere: (options: {
+type SaqueFormProps = {
+  saca: (options: {
     onSuccess: () => void;
     onError: (error: Error) => void;
-  }) => UseMutationResult<void, Error, Transferencia, unknown>;
+  }) => UseMutationResult<void, Error, Saque, unknown>;
 };
 
-export default function FormTransferencia({
-  transfere
-}: FormTransferenciaProps) {
+export default function SaqueForm({ saca }: SaqueFormProps) {
   const router = useRouter();
-  const [cliente, setCliente] = useState<string>('');
-  const [origem, setOrigem] = useState<string>('0');
-  const [destino, setDestino] = useState<string>('0');
+  const [cliente, setCliente] = useState<string>('0');
+  const [conta, setConta] = useState<string>('0');
   const [valor, setValor] = useState<string>('0');
-  const transf = transfere({
+  const sacar = saca({
     onSuccess: async () =>
       await new SuccessMessage(
         'Sucesso!',
-        'Transferência realizada com sucesso!'
+        'Saque realizado com sucesso!'
       ).show(),
     onError: async (error: Error) =>
       await new ErrorMessage(
         'Oops...',
-        `Erro ao transferir entre contas: ${error.message}`
+        `Erro ao sacar da conta: ${error.message}`
       ).show()
   });
 
@@ -49,12 +46,11 @@ export default function FormTransferencia({
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault();
-    const transferencia: Transferencia = {
-      conta_origem: Number(origem),
-      conta_destino: Number(destino),
+    const saque: Saque = {
+      conta: Number(conta),
       valor: Number(valor)
     };
-    transf.mutate(transferencia);
+    sacar.mutate(saque);
     router.push('/contas');
   }
 
@@ -93,20 +89,12 @@ export default function FormTransferencia({
           onChange={(val) => setCliente(val)}
         />
         <InfiniteSelect
-          label="Origem"
+          label="Conta"
           required
-          value={origem}
+          value={conta}
           options={contas}
-          onChange={(val) => setOrigem(val)}
-          key={`origem-${cliente}`}
-        />
-        <InfiniteSelect
-          label="Destino"
-          required
-          options={contas}
-          value={destino}
-          onChange={(val) => setDestino(val)}
-          key={`destino-${cliente}`}
+          onChange={(val) => setConta(val)}
+          key={cliente}
         />
         <TextField
           label="Valor"
@@ -116,7 +104,7 @@ export default function FormTransferencia({
           onChange={handleValor}
         />
         <Button type="submit" variant="contained">
-          Transferir
+          Sacar
         </Button>
       </form>
     </div>

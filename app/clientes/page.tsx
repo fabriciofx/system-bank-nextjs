@@ -2,7 +2,7 @@
 
 import { Button } from '@mui/material';
 import Link from 'next/link';
-import ListaClientes from '../../src/components/cliente/ListaClientes';
+import ClientesList from '../../src/components/cliente/ClientesList';
 import Navbar from '../../src/components/navbar/Navbar';
 import {
   useDeleteCliente,
@@ -25,7 +25,7 @@ export default function ClientesPage() {
           Novo cliente
         </Button>
       </div>
-      <ListaClientes
+      <ClientesList
         pages={usePagesClientes}
         remove={useDeleteCliente}
         rowsPage={10}

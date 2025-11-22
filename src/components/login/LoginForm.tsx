@@ -5,14 +5,14 @@ import {
   CREDENTIALS_INVALIDAS,
   type Credentials
 } from '../../models/Credentials';
-import styles from './FormLogin.module.css';
+import styles from './LoginForm.module.css';
 
-type FormLoginProps = {
+type LoginFormProps = {
   login: (credentials: Credentials) => Promise<boolean>;
   router: AppRouterInstance;
 };
 
-export default function FormLogin({ login, router }: FormLoginProps) {
+export default function LoginForm({ login, router }: LoginFormProps) {
   const [credentials, setCredentials] = useState<Credentials>(
     CREDENTIALS_INVALIDAS
   );

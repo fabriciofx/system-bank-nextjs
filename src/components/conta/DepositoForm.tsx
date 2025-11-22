@@ -4,21 +4,21 @@ import { Button, TextField } from '@mui/material';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ErrorMessage, SuccessMessage } from '../../components/message/Message';
 import type { Deposito } from '../../models/Deposito';
 import { pagesClientes } from '../../services/ClienteService';
 import { listContas } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
-import styles from './FormConta.module.css';
+import { ErrorMessage, SuccessMessage } from '../message/Message';
+import styles from './ContaForm.module.css';
 
-type FormDepositoProps = {
+type DepositoFormProps = {
   deposita: (options: {
     onSuccess: () => void;
     onError: (error: Error) => void;
   }) => UseMutationResult<void, Error, Deposito, unknown>;
 };
 
-export default function FormDeposito({ deposita }: FormDepositoProps) {
+export default function DepositoForm({ deposita }: DepositoFormProps) {
   const router = useRouter();
   const [cliente, setCliente] = useState<string>('');
   const [conta, setConta] = useState<string>('0');

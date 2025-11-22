@@ -1,7 +1,7 @@
 'use client';
 
 import { useCreateConta, useUpdateConta } from '@/src/hooks/useConta';
-import FormConta from '../../../src/components/conta/FormConta';
+import FormConta from '../../../src/components/conta/ContaForm';
 import Navbar from '../../../src/components/navbar/Navbar';
 import {
   clienteById,

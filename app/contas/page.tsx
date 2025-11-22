@@ -3,7 +3,7 @@
 import { Button } from '@mui/material';
 import Link from 'next/link';
 import { useDeleteConta } from '@/src/hooks/useConta';
-import ListaContas from '../../src/components/conta/ListaContas';
+import ContasList from '../../src/components/conta/ContasList';
 import Navbar from '../../src/components/navbar/Navbar';
 import { usePagesContasClientes } from '../../src/hooks/useContasClientes';
 import styles from './contas.module.css';
@@ -47,7 +47,7 @@ export default function ContasPage() {
           Transferência
         </Button>
       </div>
-      <ListaContas
+      <ContasList
         pages={usePagesContasClientes}
         remove={useDeleteConta}
         rowsPage={10}

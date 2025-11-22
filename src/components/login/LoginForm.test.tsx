@@ -2,14 +2,14 @@ import { MemoryRouter, type NavigateFunction } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { fakeLogin } from '../../services/FakeAuthService';
-import FormLogin from './FormLogin';
+import LoginForm from './LoginForm';
 
-describe('FormLogin', () => {
+describe('LoginForm', () => {
   it('deve autenticar o usuário', async () => {
     const fakeNavigate = vi.fn() as unknown as NavigateFunction;
     const screen = await render(
       <MemoryRouter>
-        <FormLogin login={fakeLogin} router={fakeNavigate} />
+        <LoginForm login={fakeLogin} router={fakeNavigate} />
       </MemoryRouter>
     );
     await vi.waitFor(async () => {
