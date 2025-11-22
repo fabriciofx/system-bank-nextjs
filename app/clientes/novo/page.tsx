@@ -2,15 +2,14 @@ import { useCreateCliente, useUpdateCliente } from '@/src/hooks/useClientes';
 import ClienteForm from '../../../src/components/cliente/ClienteForm';
 import Navbar from '../../../src/components/navbar/Navbar';
 import { clienteById } from '../../../src/services/ClienteService';
-import styles from './novo.module.css';
 
 export default function NovoClientePage() {
   return (
     <div>
       <Navbar />
-      <div className={styles.box_com_titulo}>
-        <div className={styles.box_cliente}>
-          <h1>Novo cliente</h1>
+      <div className="flex flex-col justify-start items-center">
+        <div className="flex flex-col justify-start items-start">
+          <h1 className="text-4xl font-extrabold mb-4">Novo cliente</h1>
           <ClienteForm
             create={useCreateCliente}
             update={useUpdateCliente}
