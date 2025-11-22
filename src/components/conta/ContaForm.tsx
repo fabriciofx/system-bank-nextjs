@@ -9,7 +9,6 @@ import { CLIENTE_INVALIDO, type Cliente } from '../../models/Cliente';
 import { CONTA_INVALIDA, type Conta } from '../../models/Conta';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
 import { ErrorMessage, SuccessMessage } from '../message/Message';
-import styles from './ContaForm.module.css';
 
 type FormContaProps = {
   create: (options: {
@@ -108,7 +107,7 @@ export default function FormConta({
 
   return (
     <div>
-      <form className={styles.form_conta} onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-4 w-[600px]" onSubmit={handleSubmit}>
         {cliente.id ? (
           <Select
             id="select"

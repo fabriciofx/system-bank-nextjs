@@ -9,7 +9,6 @@ import { pagesClientes } from '../../services/ClienteService';
 import { listContas } from '../../services/ContaService';
 import InfiniteSelect, { type Option } from '../infinite-select/InfiniteSelect';
 import { ErrorMessage, SuccessMessage } from '../message/Message';
-import styles from './ContaForm.module.css';
 
 type TransferenciaFormProps = {
   transfere: (options: {
@@ -84,7 +83,7 @@ export default function TransferenciaForm({
 
   return (
     <div>
-      <form className={styles.form_conta} onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-4 w-[600px]" onSubmit={handleSubmit}>
         <InfiniteSelect
           label="Cliente"
           required
