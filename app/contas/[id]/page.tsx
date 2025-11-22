@@ -8,15 +8,16 @@ import {
   pagesClientes
 } from '../../../src/services/ClienteService';
 import { contaById } from '../../../src/services/ContaService';
-import styles from './edit.module.css';
 
 export default function EditContaPage() {
   return (
     <div>
       <Navbar />
-      <div className={styles.box_com_titulo}>
-        <div className={styles.box_conta}>
-          <h1>Alterando dados da conta</h1>
+      <div className="flex flex-col justify-start items-center">
+        <div className="flex flex-col justify-start items-start">
+          <h1 className="text-4xl font-extrabold mb-4">
+            Alterando dados da conta
+          </h1>
           <FormConta
             create={useCreateConta}
             update={useUpdateConta}
