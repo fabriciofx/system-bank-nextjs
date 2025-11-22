@@ -1,5 +1,3 @@
-import './login.css';
-
 export default function RootLayout({
   children
 }: Readonly<{

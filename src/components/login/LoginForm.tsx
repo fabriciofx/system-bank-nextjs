@@ -5,7 +5,6 @@ import {
   CREDENTIALS_INVALIDAS,
   type Credentials
 } from '../../models/Credentials';
-import styles from './LoginForm.module.css';
 
 type LoginFormProps = {
   login: (credentials: Credentials) => Promise<boolean>;
@@ -33,47 +32,59 @@ export default function LoginForm({ login, router }: LoginFormProps) {
   }
 
   return (
-    <div className={styles.form_login}>
-      <div className={styles.title_container}>
-        <h1 className={styles.title}>Login</h1>
-        <p className={styles.subtitle}>
+    <div className="flex flex-col mt-[5%] mx-[15%] mb-[15%]">
+      <div className="mb-[20%]">
+        <h1 className="text-[28px] font-bold mb-3">Login</h1>
+        <p className="font-normal text-base text-[#737e88] mt-0">
           Faça login na área administrativa do sistema. Solicite um acesso à
           equipe técnica.
         </p>
       </div>
       <div>
         <form onSubmit={handleSubmit}>
-          <div className={styles.form_input}>
-            <label htmlFor="username" className={styles.label}>
+          <div className="flex flex-col mb-10">
+            <label
+              htmlFor="username"
+              className="font-semibold text-sm text-[#0b0c0d]"
+            >
               E-mail ou Nome de Usuário
             </label>
             <TextField
               id="username"
               name="username"
-              className={styles.input}
+              className="bg-white border border-solid p-4 rounded text-[18px] shadow-none"
               value={credentials.username}
               onChange={handleChange}
               variant="outlined"
               required
             />
           </div>
-          <div className={styles.form_input}>
-            <label htmlFor="password" className={styles.label}>
+          <div className="flex flex-col mb-10">
+            <label
+              htmlFor="password"
+              className="font-semibold text-sm text-[#0b0c0d]"
+            >
               Senha
             </label>
             <TextField
               type="password"
               id="password"
               name="password"
-              className={styles.input}
+              className="bg-white border border-solid p-4 rounded text-[18px] shadow-none"
               value={credentials.password}
               onChange={handleChange}
               variant="outlined"
               required
             />
           </div>
-          <p className={styles.reset_password}>Esqueci minha senha</p>
-          <Button type="submit" className={styles.entrar} variant="contained">
+          <p className="font-semibold text-sm text-[#1a77f2] underline mt-3 mb-[52px]">
+            Esqueci minha senha
+          </p>
+          <Button
+            type="submit"
+            className="py-4 px-12 rounded text-white border-none cursor-pointer text-[18px] bg-[#03b304] hover:bg-[#029703]"
+            variant="contained"
+          >
             Entrar
           </Button>
         </form>
