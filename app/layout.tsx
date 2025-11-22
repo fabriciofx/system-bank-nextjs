@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MuiThemeProvider from '@/src/theme/MuiThemeProvider';
+import './globals.css';
 
 export default function AppLayout({
   children
