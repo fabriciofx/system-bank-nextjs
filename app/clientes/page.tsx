@@ -8,14 +8,13 @@ import {
   useDeleteCliente,
   usePagesClientes
 } from '../../src/hooks/useClientes';
-import styles from './clientes.module.css';
 
 export default function ClientesPage() {
   return (
     <div>
       <Navbar />
-      <h1>Listagem de clientes</h1>
-      <div className={styles.buttons_clientes}>
+      <h1 className="text-4xl font-extrabold mb-4">Listagem de clientes</h1>
+      <div className="flex justify-start items-start gap-4 mb-4">
         <Button
           variant="contained"
           color="primary"
