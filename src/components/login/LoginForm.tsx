@@ -80,13 +80,11 @@ export default function LoginForm({ login, router }: LoginFormProps) {
           <p className="font-semibold text-sm text-[#1a77f2] underline mt-3 mb-[52px]">
             Esqueci minha senha
           </p>
-          <Button
-            type="submit"
-            className="py-4 px-12 rounded text-white border-none cursor-pointer text-[18px] bg-[#03b304] hover:bg-[#029703]"
-            variant="contained"
-          >
-            Entrar
-          </Button>
+          <div className="flex justify-center">
+            <Button type="submit" variant="contained">
+              Entrar
+            </Button>
+          </div>
         </form>
       </div>
     </div>
