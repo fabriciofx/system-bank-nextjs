@@ -8,8 +8,8 @@ import { login } from '@/src/services/AuthService';
 export default function LoginPage() {
   const router = useRouter();
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 p-6 min-h-screen">
-      <div className="w-1/2 h-full">
+    <div className="flex flex-col items-center justify-center p-6 min-h-screen">
+      <div className="bg-gray-100 w-1/2 h-full">
         <div className="flex items-center justify-center gap-2 ml-40 mr-40 mt-20">
           <span className="text-[5vw] font-bold">SystemBank</span>
           <Image
