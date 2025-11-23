@@ -1,6 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import type { Credentials } from '../../models/Credentials';
+import { ErrorMessage } from '../message/Message';
 
 type LoginFormProps = {
   login: (credentials: Credentials) => Promise<boolean>;
@@ -17,9 +18,11 @@ export default function LoginForm({ login, router }: LoginFormProps) {
       username: form.get('username')?.toString() || '',
       password: form.get('password')?.toString() || ''
     };
-    const response = await login(credentials);
-    if (response) {
+    try {
+      await login(credentials);
       router.push('/clientes');
+    } catch (error) {
+      await new ErrorMessage('Autenticação inválida', `${error}`).show();
     }
   }
 

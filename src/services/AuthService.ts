@@ -13,11 +13,11 @@ export async function login(credentials: Credentials): Promise<boolean> {
       });
       return true;
     }
+    return false;
   } catch (error) {
     console.error('Erro ao buscar clientes:', error);
     throw error;
   }
-  return false;
 }
 
 export async function logout(): Promise<void> {
