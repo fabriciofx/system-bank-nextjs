@@ -1,10 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { useState } from 'react';
-import {
-  CREDENTIALS_INVALIDAS,
-  type Credentials
-} from '../../models/Credentials';
+import type { Credentials } from '../../models/Credentials';
 
 type LoginFormProps = {
   login: (credentials: Credentials) => Promise<boolean>;
@@ -12,19 +8,15 @@ type LoginFormProps = {
 };
 
 export default function LoginForm({ login, router }: LoginFormProps) {
-  const [credentials, setCredentials] = useState<Credentials>(
-    CREDENTIALS_INVALIDAS
-  );
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    setCredentials({ ...credentials, [name]: value });
-  }
-
   async function handleSubmit(
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const credentials: Credentials = {
+      username: form.get('username')?.toString() || '',
+      password: form.get('password')?.toString() || ''
+    };
     const response = await login(credentials);
     if (response) {
       router.push('/clientes');
@@ -50,8 +42,6 @@ export default function LoginForm({ login, router }: LoginFormProps) {
               id="username"
               name="username"
               className="bg-white border"
-              value={credentials.username}
-              onChange={handleChange}
               variant="outlined"
               required
             />
@@ -65,8 +55,6 @@ export default function LoginForm({ login, router }: LoginFormProps) {
               id="password"
               name="password"
               className="bg-white border"
-              value={credentials.password}
-              onChange={handleChange}
               variant="outlined"
               required
             />
