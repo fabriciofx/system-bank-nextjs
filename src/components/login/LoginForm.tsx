@@ -1,5 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useState } from 'react';
 import type { Credentials } from '../../models/Credentials';
 import { ErrorMessage } from '../message/Message';
 
@@ -9,20 +10,23 @@ type LoginFormProps = {
 };
 
 export default function LoginForm({ login, router }: LoginFormProps) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   async function handleSubmit(
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
     const credentials: Credentials = {
-      username: form.get('username')?.toString() || '',
-      password: form.get('password')?.toString() || ''
+      username: username,
+      password: password
     };
     try {
       await login(credentials);
       router.push('/clientes');
     } catch (error) {
       await new ErrorMessage('Autenticação inválida', `${error}`).show();
+      setUsername('');
+      setPassword('');
     }
   }
 
@@ -47,6 +51,8 @@ export default function LoginForm({ login, router }: LoginFormProps) {
               className="bg-white border"
               variant="outlined"
               required
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
             />
           </div>
           <div className="flex flex-col mb-10">
@@ -60,6 +66,8 @@ export default function LoginForm({ login, router }: LoginFormProps) {
               className="bg-white border"
               variant="outlined"
               required
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
             />
           </div>
           <div className="mb-8">
